@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>capture screen</title>
+</head>
+
+<body>
+    <div id="output">
+        <video class="video"></video>
+    </div>
+    <script type="text/javascript">
+        (function () {
+            var video, output;
+            output = document.getElementById("output");
+            var canvas = document.createElement('canvas')
+            var img = document.createElement("img");
+            video = document.querySelector('.video')
+            video.setAttribute('crossOrigin', 'anonymous')
+            video.setAttribute('preload', 'auto')
+            video.setAttribute('mute', true)
+            video.src = 'http://192.168.1.30:9992/666/202007/11_20200703142527.mp4'  
+            video.onloadeddata = ((e) => {
+                canvas.width = 400
+                canvas.height = 400
+                console.log(e);
+
+                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
+                var myImage = new Image();
+                myImage.src = "/icon_play.png"; 
+                myImage.onload = () => { 
+                    canvas.getContext('2d').drawImage(myImage , 190 , 190 , 20 , 20);
+                    var dataURL = canvas.toDataURL('image/jpeg')
+                    img.src = dataURL;
+                    img.width = 400;
+                    img.height = 400;
+                    output.appendChild(img);
+                }
+        })
+
+        })();
+    </script>
+</body>
+
+</html>

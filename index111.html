@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>videojs视频播放DEMO</title>
+    <style>
+        #example_video_1 {
+            /* display: none; */
+        }
+    </style>
+</head>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video-js.min.css" rel="stylesheet">
+
+<body>
+    <h3>视频播放</h3>
+    <video id="example_video_1" class="video-js vjs-default-skin" crossorigin="anonymous"></video>
+</body>
+
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video.min.js"></script>
+<script>
+    // var videoDOM = document.createElement('video')
+    // videoDOM.setAttribute('crossorigin', 'anonymous')
+    // var player = videojs(videoDOM, {
+    //     // muted: true,
+    //     // controls: true,
+    //     height: 150,
+    //     width: 200,
+    //     loop: true,
+    //     preload: 'auto',
+    //     crossorigin: 'anonymous',
+    //     autoplay: true,
+    //     sources: [
+    //         // { src: 'http://192.168.1.30:9992/16201/202008/11_20200813171424.mp4', type: 'video/mp4' },
+    //         { src: 'http://hls01open.ys7.com/openlive/1f3e1221d409419f99598f3ed943d7f9.hd.m3u8', type: 'application/x-mpegURL' }
+    //     ]
+    //     // 更多配置.....
+    // }, function onPlayerReady() {
+    //     // console.log(this);
+    //     // setTimeout(() => {
+    //     //     let canvas = document.createElement("canvas")
+
+    //     //     let video = this.children_[0]
+    //     //     canvas.getContext("2d").drawImage(video, 0, 0, 60, 60); //绘制canvas
+    //     //     let dataURL = canvas.toDataURL('image/jpeg'); //转换为base64
+    //     //     console.log(dataURL);
+    //     // }, 1e3)
+    //     // this.play()
+    //     this.on('loadeddata', function () {
+    //         console.log('loadeddata')
+    //         let canvas = document.createElement("canvas")
+
+    //         // let video = this.children_[0]
+    //         canvas.getContext("2d").drawImage(videoDOM, 0, 0, 60, 60); //绘制canvas
+    //         let dataURL = canvas.toDataURL('image/jpeg'); //转换为base64
+    //         console.log(dataURL);
+    //         this.dispose()
+    //     })
+    // });
+    var player = videojs('example_video_1', {
+        muted: true,
+        controls: true,
+        height: 150,
+        width: 200,
+        loop: true,
+        preload: 'auto',
+        crossorigin: 'anonymous',
+        sources: [
+            // { src: 'http://192.168.1.30:9992/16201/202008/11_20200813171424.mp4',type: 'video/mp4'}
+            { src: 'http://hls01open.ys7.com/openlive/1f3e1221d409419f99598f3ed943d7f9.hd.m3u8', type: 'application/x-mpegURL' },
+            // { src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks2', type: 'rtmp/flv' },
+            
+        ]
+        // 更多配置.....
+    }, function onPlayerReady() {
+        console.log(this);
+        // this.play()
+        this.on('loadedmetadata', function () {
+            console.log('loadedmetadata');
+            //加载到元数据后开始播放视频
+            // startVideo();
+        })
+
+        this.on('ended', function () {
+            console.log('ended')
+        })
+        this.on('firstplay', function () {
+            console.log('firstplay')
+        })
+        this.on('loadstart', function () {
+            //开始加载
+            console.log('loadstart')
+        })
+        this.on('loadeddata', function () {
+            console.log('loadeddata')
+            let canvas = document.createElement("canvas")
+
+            let video = this.children_[0]
+            canvas.getContext("2d").drawImage(video, 0, 0, 60, 60); //绘制canvas
+            let dataURL = canvas.toDataURL('image/jpeg'); //转换为base64
+            console.log(dataURL);
+            this.dispose()
+        })
+        this.on('seeking', function () {
+            //正在去拿视频流的路上
+            console.log('seeking')
+        })
+        this.on('seeked', function () {
+            //已经拿到视频流,可以播放
+            console.log('seeked')
+        })
+        this.on('waiting', function () {
+            console.log('waiting')
+        })
+        this.on('pause', function () {
+            console.log('pause')
+        })
+        this.on('play', function () {
+            console.log('play')
+        })
+    });
+</script>
